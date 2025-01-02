@@ -8,12 +8,13 @@ import { supabase } from "@/src/lib/superbase";
 const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setloading] = useState(false);
   async function signUpWithEmail() {
-   const {error} = await supabase.auth.signUp({email, password})
+    const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
-
-     return Alert.alert(error.message)
+      return Alert.alert(error.message);
     }
+    setloading(false);
   }
   return (
     <View style={styles.container}>
@@ -36,7 +37,11 @@ const SignUpScreen = () => {
         secureTextEntry
       />
 
-      <Button onPress={signUpWithEmail} text="Create Account" />
+      <Button
+        onPress={signUpWithEmail}
+        disabled={loading}
+        text={ loading ? "Create Account" : "create Account"}
+      />
       <Link href="/sign-in" style={styles.textButton}>
         Sign-in
       </Link>
